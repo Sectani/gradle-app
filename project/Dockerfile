@@ -1,20 +1,11 @@
-
-# Use Gradle image to build the application
+# Build stage
 FROM gradle:8.5-jdk17 AS build
 WORKDIR /app
-
-# Copy source code
 COPY --chown=gradle:gradle . .
+RUN gradle build --no-daemon && cp build/libs/*.jar app.jar
 
-# Build the application
-RUN gradle build --no-daemon
-
-# Use a smaller JDK image for runtime
+# Runtime stage
 FROM eclipse-temurin:17-jdk-alpine
 WORKDIR /app
-
-# Copy the built jar from the previous stage
-COPY --from=build /app/build/libs/*.jar app.jar
-
-# Run the app
+COPY --from=build /app/app.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
