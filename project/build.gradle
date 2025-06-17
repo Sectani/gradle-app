@@ -9,8 +9,7 @@ version = '0.0.1-SNAPSHOT'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-        installationPath = file("/root/.sdkman/candidates/java/21.0.1-tem")
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
